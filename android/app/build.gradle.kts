@@ -1,4 +1,4 @@
-﻿import java.util.Properties
+import java.util.Properties
 import java.io.FileInputStream
 import java.io.File
 
@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.jhuni.sat_vocab_app"
+    namespace = "com.jhuni.jlpt_vocab_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -23,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.jhuni.sat_vocab_app"
+        applicationId = "com.jhuni.jlpt_vocab_app"
         minSdk = 21
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
