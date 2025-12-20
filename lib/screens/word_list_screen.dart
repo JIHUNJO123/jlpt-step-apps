@@ -52,6 +52,29 @@ class _WordListScreenState extends State<WordListScreen> {
     _loadFontSize();
   }
 
+  void _restoreScrollPosition() {
+    if (widget.isFlashcardMode) return;
+    final prefs = SharedPreferences.getInstance();
+    prefs.then((p) {
+      final position = p.getInt(_positionKey) ?? 0;
+      if (position > 0 && mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_listScrollController.hasClients && mounted) {
+            _listScrollController.jumpTo(position * 80.0);
+          }
+        });
+      }
+    });
+  }
+
+  Future<void> _saveScrollPosition() async {
+    if (_listScrollController.hasClients) {
+      final prefs = await SharedPreferences.getInstance();
+      final itemIndex = (_listScrollController.offset / 80.0).round();
+      await prefs.setInt(_positionKey, itemIndex);
+    }
+  }
+
   Future<void> _loadInterstitialAd() async {
     final adService = AdService.instance;
     await adService.initialize();
@@ -109,12 +132,7 @@ class _WordListScreenState extends State<WordListScreen> {
         _pageController = PageController(initialPage: position);
         setState(() {});
       } else {
-        // 리스트 모드에서 저장된 위치로 스크롤
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (_listScrollController.hasClients && position > 0) {
-            _listScrollController.jumpTo(position * 80.0);
-          }
-        });
+        _restoreScrollPosition();
       }
     }
   }
@@ -474,8 +492,7 @@ class _WordListScreenState extends State<WordListScreen> {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification) {
-          final scrollPosition = _listScrollController.offset;
-          final itemIndex = (scrollPosition / 80.0).round();
+          final itemIndex = (_listScrollController.offset / 80.0).round();
           _savePosition(itemIndex);
         }
         return false;
