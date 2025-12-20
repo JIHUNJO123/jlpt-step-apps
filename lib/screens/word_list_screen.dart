@@ -42,9 +42,6 @@ class _WordListScreenState extends State<WordListScreen> {
   String get _positionKey =>
       'word_list_position_${widget.level ?? 'all'}_${widget.isFlashcardMode ? 'flashcard' : 'list'}';
 
-  String get _scrollOffsetKey =>
-      'word_list_scroll_offset_${widget.level ?? 'all'}';
-
   @override
   void initState() {
     super.initState();
@@ -53,27 +50,28 @@ class _WordListScreenState extends State<WordListScreen> {
     _loadBannerAd();
     _loadInterstitialAd();
     _loadFontSize();
-    if (!widget.isFlashcardMode) {
-      _restoreScrollPosition();
-    }
   }
 
-  Future<void> _restoreScrollPosition() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedOffset = prefs.getDouble(_scrollOffsetKey) ?? 0.0;
-    if (savedOffset > 0 && mounted) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_listScrollController.hasClients) {
-          _listScrollController.jumpTo(savedOffset);
-        }
-      });
-    }
+  void _restoreScrollPosition() {
+    if (widget.isFlashcardMode) return;
+    final prefs = SharedPreferences.getInstance();
+    prefs.then((p) {
+      final position = p.getInt(_positionKey) ?? 0;
+      if (position > 0 && mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_listScrollController.hasClients && mounted) {
+            _listScrollController.jumpTo(position * 80.0);
+          }
+        });
+      }
+    });
   }
 
   Future<void> _saveScrollPosition() async {
     if (_listScrollController.hasClients) {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setDouble(_scrollOffsetKey, _listScrollController.offset);
+      final itemIndex = (_listScrollController.offset / 80.0).round();
+      await prefs.setInt(_positionKey, itemIndex);
     }
   }
 
@@ -133,6 +131,8 @@ class _WordListScreenState extends State<WordListScreen> {
         _currentFlashcardIndex = position;
         _pageController = PageController(initialPage: position);
         setState(() {});
+      } else {
+        _restoreScrollPosition();
       }
     }
   }
@@ -483,11 +483,19 @@ class _WordListScreenState extends State<WordListScreen> {
   }
 
   Widget _buildListView() {
-    return ListView.builder(
-      controller: _listScrollController,
-      padding: const EdgeInsets.all(16),
-      itemCount: _words.length,
-      itemBuilder: (context, index) {
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification is ScrollEndNotification) {
+          final itemIndex = (_listScrollController.offset / 80.0).round();
+          _savePosition(itemIndex);
+        }
+        return false;
+      },
+      child: ListView.builder(
+        controller: _listScrollController,
+        padding: const EdgeInsets.all(16),
+        itemCount: _words.length,
+        itemBuilder: (context, index) {
         final word = _words[index];
         _loadTranslationForWord(word);
 
@@ -565,6 +573,7 @@ class _WordListScreenState extends State<WordListScreen> {
           ),
         );
       },
+      ),
     );
   }
 
