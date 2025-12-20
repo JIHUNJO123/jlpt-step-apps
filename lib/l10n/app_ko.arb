@@ -53,11 +53,11 @@
     }
   },
   "n5": "N5",
-  "n5Desc": "초급 - 500단어",
+  "n5Desc": "초급 - 674단어",
   "n4": "N4",
-  "n4Desc": "초중급 - 1,000단어",
+  "n4Desc": "초중급 - 636단어",
   "n3": "N3",
-  "n3Desc": "중급 - 800단어",
+  "n3Desc": "중급 - 1,705단어",
   "n2": "N2",
   "n2Desc": "중상급 - 1,200단어",
   "n1": "N1",
@@ -92,5 +92,10 @@
   "parenthesesMode": "괄호 병기",
   "furiganaMode": "후리가나",
   "parenthesesExample": "예: 食べ物 (たべもの)",
-  "furiganaExample": "예: 食べ物 [たべもの]"
+  "furiganaExample": "한자 위에 읽기 표시",
+  "showFuriganaInList": "단어 목록에서 후리가나 표시",
+  "showFuriganaInListDesc": "단어 목록에서 한자 위에 읽기 표시",
+  "marketing": "마케팅",
+  "support": "지원"
 }
+

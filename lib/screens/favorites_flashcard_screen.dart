@@ -189,25 +189,7 @@ class _FavoritesFlashcardScreenState extends State<FavoritesFlashcardScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withAlpha(
-                                        (0.2 * 255).toInt(),
-                                      ),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      word.partOfSpeech,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
+                                  const SizedBox.shrink(),
                                   IconButton(
                                     icon: Icon(
                                       word.isFavorite
@@ -224,7 +206,10 @@ class _FavoritesFlashcardScreenState extends State<FavoritesFlashcardScreen> {
                               ),
                               const Spacer(),
                               Text(
-                                word.getDisplayWord(displayMode: DisplayService.instance.displayMode),
+                                word.getDisplayWord(
+                                  displayMode:
+                                      DisplayService.instance.displayMode,
+                                ),
                                 style: const TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,

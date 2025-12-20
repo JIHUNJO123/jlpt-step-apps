@@ -149,19 +149,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get n5 => 'N5';
 
   @override
-  String get n5Desc => '初级 - 500词';
+  String get n5Desc => '初级 - 674词';
 
   @override
   String get n4 => 'N4';
 
   @override
-  String get n4Desc => '初中级 - 1,000词';
+  String get n4Desc => '初中级 - 636词';
 
   @override
   String get n3 => 'N3';
 
   @override
-  String get n3Desc => '中级 - 800词';
+  String get n3Desc => '中级 - 1,705词';
 
   @override
   String get n2 => 'N2';
@@ -266,5 +266,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get parenthesesExample => '例：食べ物 (たべもの)';
 
   @override
-  String get furiganaExample => '例：食べ物 [たべもの]';
+  String get furiganaExample => '汉字上方显示假名';
+
+  @override
+  String get showFuriganaInList => '在单词列表中显示假名';
+
+  @override
+  String get showFuriganaInListDesc => '在单词列表中的汉字上方显示假名';
+
+  @override
+  String get marketing => '营销';
+
+  @override
+  String get support => '支持';
 }

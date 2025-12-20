@@ -149,19 +149,19 @@ class AppLocalizationsKo extends AppLocalizations {
   String get n5 => 'N5';
 
   @override
-  String get n5Desc => '초급 - 500단어';
+  String get n5Desc => '초급 - 674단어';
 
   @override
   String get n4 => 'N4';
 
   @override
-  String get n4Desc => '초중급 - 1,000단어';
+  String get n4Desc => '초중급 - 636단어';
 
   @override
   String get n3 => 'N3';
 
   @override
-  String get n3Desc => '중급 - 800단어';
+  String get n3Desc => '중급 - 1,705단어';
 
   @override
   String get n2 => 'N2';
@@ -266,5 +266,17 @@ class AppLocalizationsKo extends AppLocalizations {
   String get parenthesesExample => '예: 食べ物 (たべもの)';
 
   @override
-  String get furiganaExample => '예: 食べ物 [たべもの]';
+  String get furiganaExample => '한자 위에 읽기 표시';
+
+  @override
+  String get showFuriganaInList => '단어 목록에서 후리가나 표시';
+
+  @override
+  String get showFuriganaInListDesc => '단어 목록에서 한자 위에 읽기 표시';
+
+  @override
+  String get marketing => '마케팅';
+
+  @override
+  String get support => '지원';
 }

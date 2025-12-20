@@ -53,11 +53,11 @@
     }
   },
   "n5": "N5",
-  "n5Desc": "Beginner - 500 words",
+  "n5Desc": "Beginner - 674 words",
   "n4": "N4",
-  "n4Desc": "Elementary - 1,000 words",
+  "n4Desc": "Elementary - 636 words",
   "n3": "N3",
-  "n3Desc": "Intermediate - 800 words",
+  "n3Desc": "Intermediate - 1,705 words",
   "n2": "N2",
   "n2Desc": "Upper Intermediate - 1,200 words",
   "n1": "N1",
@@ -90,9 +90,13 @@
   "noPurchaseFound": "No previous purchase found",
   "furiganaDisplayMode": "Reading Display",
   "parenthesesMode": "Parentheses",
-  "furiganaMode": "Brackets",
+  "furiganaMode": "Ruby Style",
   "parenthesesExample": "e.g. 食べ物 (たべもの)",
-  "furiganaExample": "e.g. 食べ物 [たべもの]"
+  "furiganaExample": "Reading above kanji",
+  "showFuriganaInList": "Show Furigana in Word List",
+  "showFuriganaInListDesc": "Display reading above kanji in word list",
+  "marketing": "Marketing",
+  "support": "Support"
 }
 
 

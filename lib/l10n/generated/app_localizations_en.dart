@@ -149,19 +149,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get n5 => 'N5';
 
   @override
-  String get n5Desc => 'Beginner - 500 words';
+  String get n5Desc => 'Beginner - 674 words';
 
   @override
   String get n4 => 'N4';
 
   @override
-  String get n4Desc => 'Elementary - 1,000 words';
+  String get n4Desc => 'Elementary - 636 words';
 
   @override
   String get n3 => 'N3';
 
   @override
-  String get n3Desc => 'Intermediate - 800 words';
+  String get n3Desc => 'Intermediate - 1,705 words';
 
   @override
   String get n2 => 'N2';
@@ -260,11 +260,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get parenthesesMode => 'Parentheses';
 
   @override
-  String get furiganaMode => 'Brackets';
+  String get furiganaMode => 'Ruby Style';
 
   @override
   String get parenthesesExample => 'e.g. 食べ物 (たべもの)';
 
   @override
-  String get furiganaExample => 'e.g. 食べ物 [たべもの]';
+  String get furiganaExample => 'Reading above kanji';
+
+  @override
+  String get showFuriganaInList => 'Show Furigana in Word List';
+
+  @override
+  String get showFuriganaInListDesc => 'Display reading above kanji in word list';
+
+  @override
+  String get marketing => 'Marketing';
+
+  @override
+  String get support => 'Support';
 }

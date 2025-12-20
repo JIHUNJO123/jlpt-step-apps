@@ -21,6 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _darkMode = false;
   bool _dailyReminder = false;
   double _fontSize = 1.0;
+  bool _showFuriganaInList = false;
   bool _isLoading = true;
 
   @override
@@ -58,6 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _darkMode = prefs.getBool('darkMode') ?? false;
       _dailyReminder = prefs.getBool('dailyReminder') ?? false;
       _fontSize = prefs.getDouble('wordFontSize') ?? 1.0;
+      _showFuriganaInList = DisplayService.instance.showFuriganaInList;
       _isLoading = false;
     });
   }
@@ -124,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             title: Text(lang.nativeName),
                             subtitle: Text(lang.name),
                             onTap: () {
-                              // TranslationService???�어 코드 ?�??
+                              // TranslationService???�어 코드 ?�??
                               TranslationService.instance.setLanguage(
                                 lang.code,
                               );
@@ -202,6 +204,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
           ),
+          SwitchListTile(
+            secondary: const Icon(Icons.translate),
+            title: Text(l10n.showFuriganaInList),
+            subtitle: Text(l10n.showFuriganaInListDesc),
+            value: _showFuriganaInList,
+            onChanged: (value) async {
+              setState(() => _showFuriganaInList = value);
+              await DisplayService.instance.setShowFuriganaInList(value);
+            },
+          ),
           const Divider(),
 
           // Notification Section
@@ -256,11 +268,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.campaign),
-            title: const Text('Marketing'),
+            title: Text(l10n.marketing),
             trailing: const Icon(Icons.open_in_new),
             onTap: () async {
-              const url =
+              final langCode = TranslationService.instance.currentLanguage;
+              String url =
                   'https://jihunjo123.github.io/jlpt-step-apps/marketing-n5-n3.html';
+              if (langCode == 'ko') {
+                url =
+                    'https://jihunjo123.github.io/jlpt-step-apps/marketing-n5-n3-ko.html';
+              } else if (langCode == 'zh') {
+                url =
+                    'https://jihunjo123.github.io/jlpt-step-apps/marketing-n5-n3-zh.html';
+              }
               final uri = Uri.parse(url);
               if (await canLaunchUrl(uri)) {
                 await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -269,11 +289,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.help_outline),
-            title: const Text('Support'),
+            title: Text(l10n.support),
             trailing: const Icon(Icons.open_in_new),
             onTap: () async {
-              const url =
+              final langCode = TranslationService.instance.currentLanguage;
+              String url =
                   'https://jihunjo123.github.io/jlpt-step-apps/support-n5-n3.html';
+              if (langCode == 'ko') {
+                url =
+                    'https://jihunjo123.github.io/jlpt-step-apps/support-n5-n3-ko.html';
+              } else if (langCode == 'zh') {
+                url =
+                    'https://jihunjo123.github.io/jlpt-step-apps/support-n5-n3-zh.html';
+              }
               final uri = Uri.parse(url);
               if (await canLaunchUrl(uri)) {
                 await launchUrl(uri, mode: LaunchMode.externalApplication);

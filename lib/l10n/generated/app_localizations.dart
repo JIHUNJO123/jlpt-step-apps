@@ -376,7 +376,7 @@ abstract class AppLocalizations {
   /// No description provided for @n5Desc.
   ///
   /// In en, this message translates to:
-  /// **'Beginner - 500 words'**
+  /// **'Beginner - 674 words'**
   String get n5Desc;
 
   /// No description provided for @n4.
@@ -388,7 +388,7 @@ abstract class AppLocalizations {
   /// No description provided for @n4Desc.
   ///
   /// In en, this message translates to:
-  /// **'Elementary - 1,000 words'**
+  /// **'Elementary - 636 words'**
   String get n4Desc;
 
   /// No description provided for @n3.
@@ -400,7 +400,7 @@ abstract class AppLocalizations {
   /// No description provided for @n3Desc.
   ///
   /// In en, this message translates to:
-  /// **'Intermediate - 800 words'**
+  /// **'Intermediate - 1,705 words'**
   String get n3Desc;
 
   /// No description provided for @n2.
@@ -598,7 +598,7 @@ abstract class AppLocalizations {
   /// No description provided for @furiganaMode.
   ///
   /// In en, this message translates to:
-  /// **'Brackets'**
+  /// **'Ruby Style'**
   String get furiganaMode;
 
   /// No description provided for @parenthesesExample.
@@ -610,8 +610,32 @@ abstract class AppLocalizations {
   /// No description provided for @furiganaExample.
   ///
   /// In en, this message translates to:
-  /// **'e.g. 食べ物 [たべもの]'**
+  /// **'Reading above kanji'**
   String get furiganaExample;
+
+  /// No description provided for @showFuriganaInList.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Furigana in Word List'**
+  String get showFuriganaInList;
+
+  /// No description provided for @showFuriganaInListDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Display reading above kanji in word list'**
+  String get showFuriganaInListDesc;
+
+  /// No description provided for @marketing.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing'**
+  String get marketing;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

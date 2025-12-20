@@ -8,6 +8,7 @@ import '../models/word.dart';
 import '../services/translation_service.dart';
 import '../services/ad_service.dart';
 import '../services/display_service.dart';
+import '../widgets/furigana_text.dart';
 import 'word_detail_screen.dart';
 
 class WordListScreen extends StatefulWidget {
@@ -31,7 +32,8 @@ class _WordListScreenState extends State<WordListScreen> {
   bool _isBannerAdLoaded = false;
   double _wordFontSize = 1.0;
   bool _showNativeLanguage = true;
-  bool _showBandBadge = true; // Band 諛곗? ?쒖떆 ?щ?
+  bool _showBandBadge = true; // Band 배지 표시 여부
+  bool _showFuriganaInList = false; // 단어 목록에서 후리가나 표시
 
   final ScrollController _listScrollController = ScrollController();
 
@@ -63,6 +65,7 @@ class _WordListScreenState extends State<WordListScreen> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _wordFontSize = prefs.getDouble('wordFontSize') ?? 1.0;
+      _showFuriganaInList = DisplayService.instance.showFuriganaInList;
     });
   }
 
@@ -480,15 +483,26 @@ class _WordListScreenState extends State<WordListScreen> {
             title: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    word.getDisplayWord(
-                      displayMode: DisplayService.instance.displayMode,
-                    ),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16 * _wordFontSize,
-                    ),
-                  ),
+                  child:
+                      _showFuriganaInList &&
+                              word.hiragana != null &&
+                              word.hiragana!.isNotEmpty
+                          ? FuriganaText(
+                            kanji: word.word,
+                            reading: word.hiragana!,
+                            mainFontSize: 16 * _wordFontSize,
+                            furiganaFontSize: 10 * _wordFontSize,
+                            fontWeight: FontWeight.bold,
+                          )
+                          : Text(
+                            word.getDisplayWord(
+                              displayMode: DisplayService.instance.displayMode,
+                            ),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16 * _wordFontSize,
+                            ),
+                          ),
                 ),
                 // Band 諛곗?: All Words?먯꽌 ?좉? 媛??
                 if (widget.level == null && _showBandBadge)
@@ -516,15 +530,7 @@ class _WordListScreenState extends State<WordListScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      word.partOfSpeech,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
+
                 Text(
                   definition,
                   maxLines: 2,
@@ -622,25 +628,7 @@ class _WordListScreenState extends State<WordListScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(
-                                      (0.2 * 255).toInt(),
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    word.partOfSpeech,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
+                                const SizedBox.shrink(),
                                 IconButton(
                                   icon: Icon(
                                     word.isFavorite

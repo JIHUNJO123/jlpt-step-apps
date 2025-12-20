@@ -4,6 +4,7 @@ import '../db/database_helper.dart';
 import '../models/word.dart';
 import '../services/translation_service.dart';
 import '../services/display_service.dart';
+import '../widgets/furigana_text.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final Word word;
@@ -141,7 +142,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            _word.partOfSpeech,
+                            _word.level,
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -175,15 +176,14 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      _word.getDisplayWord(
-                        displayMode: DisplayService.instance.displayMode,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    // 후리가나 스타일: 한자 위에 히라가나 표시
+                    FuriganaText(
+                      kanji: _word.word,
+                      reading: _word.hiragana ?? '',
+                      mainFontSize: 32,
+                      furiganaFontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ],
                 ),
