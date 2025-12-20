@@ -3,8 +3,6 @@ import 'package:jlpt_vocab_app/l10n/generated/app_localizations.dart';
 import '../db/database_helper.dart';
 import '../models/word.dart';
 import '../services/translation_service.dart';
-import '../services/display_service.dart';
-import '../widgets/furigana_text.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final Word word;
@@ -176,14 +174,18 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    // 후리가나 스타일: 한자 위에 히라가나 표시
-                    FuriganaText(
-                      kanji: _word.word,
-                      reading: _word.hiragana ?? '',
-                      mainFontSize: 32,
-                      furiganaFontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    // 단어 표시 (괄호 안에 읽기)
+                    Text(
+                      _word.hiragana != null &&
+                              _word.hiragana!.isNotEmpty &&
+                              _word.word != _word.hiragana
+                          ? '${_word.word}(${_word.hiragana})'
+                          : _word.word,
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),

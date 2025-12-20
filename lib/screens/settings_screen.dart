@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jlpt_vocab_app/l10n/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,6 @@ import '../main.dart';
 import '../services/translation_service.dart';
 import '../services/purchase_service.dart';
 import '../services/ad_service.dart';
-import '../services/display_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -21,7 +19,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _darkMode = false;
   bool _dailyReminder = false;
   double _fontSize = 1.0;
-  bool _showFuriganaInList = false;
   bool _isLoading = true;
 
   @override
@@ -59,7 +56,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _darkMode = prefs.getBool('darkMode') ?? false;
       _dailyReminder = prefs.getBool('dailyReminder') ?? false;
       _fontSize = prefs.getDouble('wordFontSize') ?? 1.0;
-      _showFuriganaInList = DisplayService.instance.showFuriganaInList;
       _isLoading = false;
     });
   }
@@ -203,16 +199,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _saveSetting('wordFontSize', value);
               },
             ),
-          ),
-          SwitchListTile(
-            secondary: const Icon(Icons.translate),
-            title: Text(l10n.showFuriganaInList),
-            subtitle: Text(l10n.showFuriganaInListDesc),
-            value: _showFuriganaInList,
-            onChanged: (value) async {
-              setState(() => _showFuriganaInList = value);
-              await DisplayService.instance.setShowFuriganaInList(value);
-            },
           ),
           const Divider(),
 

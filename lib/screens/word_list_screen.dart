@@ -8,7 +8,6 @@ import '../models/word.dart';
 import '../services/translation_service.dart';
 import '../services/ad_service.dart';
 import '../services/display_service.dart';
-import '../widgets/furigana_text.dart';
 import 'word_detail_screen.dart';
 
 class WordListScreen extends StatefulWidget {
@@ -33,7 +32,7 @@ class _WordListScreenState extends State<WordListScreen> {
   double _wordFontSize = 1.0;
   bool _showNativeLanguage = true;
   bool _showBandBadge = true; // Band 배지 표시 여부
-  bool _showFuriganaInList = false; // 단어 목록에서 후리가나 표시
+  // bool _showFuriganaInList = false; // 후리가나 제거됨
 
   final ScrollController _listScrollController = ScrollController();
 
@@ -65,7 +64,7 @@ class _WordListScreenState extends State<WordListScreen> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _wordFontSize = prefs.getDouble('wordFontSize') ?? 1.0;
-      _showFuriganaInList = DisplayService.instance.showFuriganaInList;
+      // _showFuriganaInList = DisplayService.instance.showFuriganaInList; // 후리가나 제거됨
     });
   }
 
@@ -483,26 +482,15 @@ class _WordListScreenState extends State<WordListScreen> {
             title: Row(
               children: [
                 Expanded(
-                  child:
-                      _showFuriganaInList &&
-                              word.hiragana != null &&
-                              word.hiragana!.isNotEmpty
-                          ? FuriganaText(
-                            kanji: word.word,
-                            reading: word.hiragana!,
-                            mainFontSize: 16 * _wordFontSize,
-                            furiganaFontSize: 10 * _wordFontSize,
-                            fontWeight: FontWeight.bold,
-                          )
-                          : Text(
-                            word.getDisplayWord(
-                              displayMode: DisplayService.instance.displayMode,
-                            ),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16 * _wordFontSize,
-                            ),
-                          ),
+                  child: Text(
+                    word.getDisplayWord(
+                      displayMode: DisplayService.instance.displayMode,
+                    ),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16 * _wordFontSize,
+                    ),
+                  ),
                 ),
                 // Band 諛곗?: All Words?먯꽌 ?좉? 媛??
                 if (widget.level == null && _showBandBadge)
