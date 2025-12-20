@@ -42,9 +42,6 @@ class _WordListScreenState extends State<WordListScreen> {
   String get _positionKey =>
       'word_list_position_${widget.level ?? 'all'}_${widget.isFlashcardMode ? 'flashcard' : 'list'}';
 
-  String get _scrollOffsetKey =>
-      'word_list_scroll_offset_${widget.level ?? 'all'}';
-
   @override
   void initState() {
     super.initState();
@@ -53,28 +50,6 @@ class _WordListScreenState extends State<WordListScreen> {
     _loadBannerAd();
     _loadInterstitialAd();
     _loadFontSize();
-    if (!widget.isFlashcardMode) {
-      _restoreScrollPosition();
-    }
-  }
-
-  Future<void> _restoreScrollPosition() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedOffset = prefs.getDouble(_scrollOffsetKey) ?? 0.0;
-    if (savedOffset > 0 && mounted) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_listScrollController.hasClients) {
-          _listScrollController.jumpTo(savedOffset);
-        }
-      });
-    }
-  }
-
-  Future<void> _saveScrollPosition() async {
-    if (_listScrollController.hasClients) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setDouble(_scrollOffsetKey, _listScrollController.offset);
-    }
   }
 
   Future<void> _loadInterstitialAd() async {
