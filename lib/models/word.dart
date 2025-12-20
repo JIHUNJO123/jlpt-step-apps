@@ -184,7 +184,10 @@ class Word {
   /// 한자와 히라가나를 함께 표시 (표시 방식에 따라)
   /// [displayMode]: 'parentheses' (괄호 병기) 또는 'furigana' (후리가나)
   String getDisplayWord({String displayMode = 'parentheses'}) {
-    if (kanji != null && hiragana != null && kanji!.isNotEmpty && hiragana!.isNotEmpty) {
+    // 한자와 히라가나가 다를 때만 괄호 표시 (あそこ(あそこ) 중복 방지)
+    if (kanji != null && hiragana != null && 
+        kanji!.isNotEmpty && hiragana!.isNotEmpty && 
+        kanji != hiragana && word != hiragana) {
       if (displayMode == 'furigana') {
         // 후리가나 방식: 食べ物 [たべもの]
         return '$kanji [$hiragana]';
