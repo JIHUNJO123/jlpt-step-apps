@@ -65,7 +65,7 @@ class Word {
       });
     }
 
-    // ?�식 2: flat ?�식 (definition_ja, example_ja ??
+    // 형식 2: flat 형식 (definition_ko, example_ko 등)
     final langCodes = [
       'ko',
       'ja',
@@ -86,7 +86,7 @@ class Word {
       final exKey = 'example_$lang';
       if (json[defKey] != null || json[exKey] != null) {
         translations ??= {};
-        // zh_cn -> zh�?매핑
+        // zh_cn -> zh로 매핑
         final normalizedLang = lang == 'zh_cn' ? 'zh' : lang;
         translations[normalizedLang] = {
           'definition': json[defKey]?.toString() ?? '',
@@ -95,11 +95,27 @@ class Word {
       }
     }
 
+    // 형식 3: korean, chinese 필드 (N5-N3 데이터 형식)
+    if (json['korean'] != null) {
+      translations ??= {};
+      translations['ko'] = {
+        'definition': json['korean']?.toString() ?? '',
+        'example': json['example_ko']?.toString() ?? '',
+      };
+    }
+    if (json['chinese'] != null) {
+      translations ??= {};
+      translations['zh'] = {
+        'definition': json['chinese']?.toString() ?? '',
+        'example': json['example_zh']?.toString() ?? '',
+      };
+    }
+
     return Word(
       id: json['id'],
       word: json['word'],
-      kanji: json['kanji'],
-      hiragana: json['hiragana'],
+      kanji: json['kanji'] ?? json['word'],  // N5-N3: word를 kanji로 사용
+      hiragana: json['hiragana'] ?? json['reading'],  // N5-N3: reading을 hiragana로 사용
       level: json['level'],
       partOfSpeech: json['partOfSpeech'],
       definition: json['definition'],
