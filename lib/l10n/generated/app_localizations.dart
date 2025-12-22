@@ -636,6 +636,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Support'**
   String get support;
+
+  /// No description provided for @japaneseBasics.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese Basics'**
+  String get japaneseBasics;
+
+  /// No description provided for @hiragana.
+  ///
+  /// In en, this message translates to:
+  /// **'Hiragana'**
+  String get hiragana;
+
+  /// No description provided for @katakana.
+  ///
+  /// In en, this message translates to:
+  /// **'Katakana'**
+  String get katakana;
+
+  /// No description provided for @numbersAndTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers & Time'**
+  String get numbersAndTime;
+
+  /// No description provided for @chart.
+  ///
+  /// In en, this message translates to:
+  /// **'Chart'**
+  String get chart;
+
+  /// No description provided for @showRomaji.
+  ///
+  /// In en, this message translates to:
+  /// **'Show/Hide Romaji'**
+  String get showRomaji;
+
+  /// No description provided for @basicKana.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Kana (Seion)'**
+  String get basicKana;
+
+  /// No description provided for @dakutenKana.
+  ///
+  /// In en, this message translates to:
+  /// **'Dakuten & Handakuten'**
+  String get dakutenKana;
+
+  /// No description provided for @tapToReveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to reveal'**
+  String get tapToReveal;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed!'**
+  String get completed;
+
+  /// No description provided for @numbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers'**
+  String get numbers;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// No description provided for @daysMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Days & Months'**
+  String get daysMonths;
+
+  /// No description provided for @basicNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Numbers (0-10)'**
+  String get basicNumbers;
+
+  /// No description provided for @bigNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Big Numbers'**
+  String get bigNumbers;
+
+  /// No description provided for @compoundNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Compound Numbers'**
+  String get compoundNumbers;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get hours;
+
+  /// No description provided for @minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get minutes;
+
+  /// No description provided for @timeExpressions.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Expressions'**
+  String get timeExpressions;
+
+  /// No description provided for @daysOfWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Days of the Week'**
+  String get daysOfWeek;
+
+  /// No description provided for @months.
+  ///
+  /// In en, this message translates to:
+  /// **'Months'**
+  String get months;
+
+  /// No description provided for @dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get dates;
+
+  /// No description provided for @whatIsTheReading.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the reading?'**
+  String get whatIsTheReading;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

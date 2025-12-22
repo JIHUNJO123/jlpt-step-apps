@@ -279,4 +279,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get support => 'Support';
+
+  @override
+  String get japaneseBasics => 'Japanese Basics';
+
+  @override
+  String get hiragana => 'Hiragana';
+
+  @override
+  String get katakana => 'Katakana';
+
+  @override
+  String get numbersAndTime => 'Numbers & Time';
+
+  @override
+  String get chart => 'Chart';
+
+  @override
+  String get showRomaji => 'Show/Hide Romaji';
+
+  @override
+  String get basicKana => 'Basic Kana (Seion)';
+
+  @override
+  String get dakutenKana => 'Dakuten & Handakuten';
+
+  @override
+  String get tapToReveal => 'Tap to reveal';
+
+  @override
+  String get completed => 'Completed!';
+
+  @override
+  String get numbers => 'Numbers';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get daysMonths => 'Days & Months';
+
+  @override
+  String get basicNumbers => 'Basic Numbers (0-10)';
+
+  @override
+  String get bigNumbers => 'Big Numbers';
+
+  @override
+  String get compoundNumbers => 'Compound Numbers';
+
+  @override
+  String get hours => 'Hours';
+
+  @override
+  String get minutes => 'Minutes';
+
+  @override
+  String get timeExpressions => 'Time Expressions';
+
+  @override
+  String get daysOfWeek => 'Days of the Week';
+
+  @override
+  String get months => 'Months';
+
+  @override
+  String get dates => 'Dates';
+
+  @override
+  String get whatIsTheReading => 'What is the reading?';
 }

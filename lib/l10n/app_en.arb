@@ -96,7 +96,30 @@
   "showFuriganaInList": "Show Furigana in Word List",
   "showFuriganaInListDesc": "Display reading above kanji in word list",
   "marketing": "Marketing",
-  "support": "Support"
+  "support": "Support",
+  "japaneseBasics": "Japanese Basics",
+  "hiragana": "Hiragana",
+  "katakana": "Katakana",
+  "numbersAndTime": "Numbers & Time",
+  "chart": "Chart",
+  "showRomaji": "Show/Hide Romaji",
+  "basicKana": "Basic Kana (Seion)",
+  "dakutenKana": "Dakuten & Handakuten",
+  "tapToReveal": "Tap to reveal",
+  "completed": "Completed!",
+  "numbers": "Numbers",
+  "time": "Time",
+  "daysMonths": "Days & Months",
+  "basicNumbers": "Basic Numbers (0-10)",
+  "bigNumbers": "Big Numbers",
+  "compoundNumbers": "Compound Numbers",
+  "hours": "Hours",
+  "minutes": "Minutes",
+  "timeExpressions": "Time Expressions",
+  "daysOfWeek": "Days of the Week",
+  "months": "Months",
+  "dates": "Dates",
+  "whatIsTheReading": "What is the reading?"
 }
 
 
