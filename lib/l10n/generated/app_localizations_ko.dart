@@ -281,9 +281,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get support => '지원';
 
   @override
-<<<<<<< HEAD
   String get cancel => '취소';
-=======
+
+  @override
   String get japaneseBasics => '일본어 기초';
 
   @override
@@ -351,5 +351,4 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get whatIsTheReading => '읽기가 무엇일까요?';
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }

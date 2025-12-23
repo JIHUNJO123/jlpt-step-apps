@@ -2,11 +2,7 @@ name: jlpt_vocab_app
 description: "JLPT Step N5?N3 - Master Japanese words for JLPT N5, N4, N3 levels"
 publish_to: 'none'
 
-<<<<<<< HEAD
-version: 1.0.3+15
-=======
-version: 1.1.0+30
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
+version: 1.1.1+31
 
 environment:
   sdk: ^3.7.0

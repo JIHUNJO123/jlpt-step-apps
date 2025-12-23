@@ -281,9 +281,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get support => '支持';
 
   @override
-<<<<<<< HEAD
   String get cancel => '取消';
-=======
+
+  @override
   String get japaneseBasics => '日语基础';
 
   @override
@@ -351,5 +351,4 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get whatIsTheReading => '读音是什么？';
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }

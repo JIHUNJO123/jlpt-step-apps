@@ -97,9 +97,7 @@
   "showFuriganaInListDesc": "단어 목록에서 한자 위에 읽기 표시",
   "marketing": "마케팅",
   "support": "지원",
-<<<<<<< HEAD
-  "cancel": "취소"
-=======
+  "cancel": "취소",
   "japaneseBasics": "일본어 기초",
   "hiragana": "히라가나",
   "katakana": "카타카나",
@@ -123,6 +121,5 @@
   "months": "월",
   "dates": "날짜",
   "whatIsTheReading": "읽기가 무엇일까요?"
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }
 

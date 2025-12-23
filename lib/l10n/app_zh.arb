@@ -97,9 +97,7 @@
   "showFuriganaInListDesc": "在单词列表中的汉字上方显示假名",
   "marketing": "营销",
   "support": "支持",
-<<<<<<< HEAD
-  "cancel": "取消"
-=======
+  "cancel": "取消",
   "japaneseBasics": "日语基础",
   "hiragana": "平假名",
   "katakana": "片假名",
@@ -123,6 +121,5 @@
   "months": "月份",
   "dates": "日期",
   "whatIsTheReading": "读音是什么？"
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }
 

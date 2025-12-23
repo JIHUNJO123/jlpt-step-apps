@@ -637,13 +637,12 @@ abstract class AppLocalizations {
   /// **'Support'**
   String get support;
 
-<<<<<<< HEAD
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
-=======
+
   /// No description provided for @japaneseBasics.
   ///
   /// In en, this message translates to:
@@ -781,7 +780,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What is the reading?'**
   String get whatIsTheReading;
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -281,9 +281,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support => 'Support';
 
   @override
-<<<<<<< HEAD
   String get cancel => 'Cancel';
-=======
+
+  @override
   String get japaneseBasics => 'Japanese Basics';
 
   @override
@@ -351,5 +351,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get whatIsTheReading => 'What is the reading?';
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }

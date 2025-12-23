@@ -97,9 +97,7 @@
   "showFuriganaInListDesc": "Display reading above kanji in word list",
   "marketing": "Marketing",
   "support": "Support",
-<<<<<<< HEAD
-  "cancel": "Cancel"
-=======
+  "cancel": "Cancel",
   "japaneseBasics": "Japanese Basics",
   "hiragana": "Hiragana",
   "katakana": "Katakana",
@@ -123,7 +121,6 @@
   "months": "Months",
   "dates": "Dates",
   "whatIsTheReading": "What is the reading?"
->>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }
 
 
