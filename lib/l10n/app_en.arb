@@ -96,7 +96,8 @@
   "showFuriganaInList": "Show Furigana in Word List",
   "showFuriganaInListDesc": "Display reading above kanji in word list",
   "marketing": "Marketing",
-  "support": "Support"
+  "support": "Support",
+  "cancel": "Cancel"
 }
 
 

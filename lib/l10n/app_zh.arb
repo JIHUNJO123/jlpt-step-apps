@@ -96,6 +96,7 @@
   "showFuriganaInList": "在单词列表中显示假名",
   "showFuriganaInListDesc": "在单词列表中的汉字上方显示假名",
   "marketing": "营销",
-  "support": "支持"
+  "support": "支持",
+  "cancel": "取消"
 }
 

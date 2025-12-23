@@ -11,8 +11,9 @@ enum QuizType { wordToMeaning, meaningToWord }
 
 class QuizScreen extends StatefulWidget {
   final String? level;
+  final bool favoritesOnly;
 
-  const QuizScreen({super.key, this.level});
+  const QuizScreen({super.key, this.level, this.favoritesOnly = false});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -38,14 +39,19 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Future<void> _loadWords() async {
-    // JSON?�서 ?�어 로드 (?�장 번역 ?�함)
-    final jsonWords = await DatabaseHelper.instance.getWordsWithTranslations();
-
     List<Word> words;
-    if (widget.level != null) {
-      words = jsonWords.where((w) => w.level == widget.level).toList();
+    if (widget.favoritesOnly) {
+      words = await DatabaseHelper.instance.getFavorites();
     } else {
-      words = jsonWords;
+      // JSON에서 단어 로드 (내장 번역 포함)
+      final jsonWords =
+          await DatabaseHelper.instance.getWordsWithTranslations();
+
+      if (widget.level != null) {
+        words = jsonWords.where((w) => w.level == widget.level).toList();
+      } else {
+        words = jsonWords;
+      }
     }
 
     words.shuffle();
@@ -348,7 +354,9 @@ class _QuizScreenState extends State<QuizScreen> {
                     const SizedBox(height: 16),
                     Text(
                       _quizType == QuizType.wordToMeaning
-                          ? currentWord.getDisplayWord(displayMode: DisplayService.instance.displayMode)
+                          ? currentWord.getDisplayWord(
+                            displayMode: DisplayService.instance.displayMode,
+                          )
                           : (_translatedDefinitions[currentWord.id] ??
                               currentWord.definition),
                       style: TextStyle(

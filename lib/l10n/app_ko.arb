@@ -96,6 +96,7 @@
   "showFuriganaInList": "단어 목록에서 후리가나 표시",
   "showFuriganaInListDesc": "단어 목록에서 한자 위에 읽기 표시",
   "marketing": "마케팅",
-  "support": "지원"
+  "support": "지원",
+  "cancel": "취소"
 }
 
