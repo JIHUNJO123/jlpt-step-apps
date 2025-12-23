@@ -520,7 +520,7 @@ class _WordListScreenState extends State<WordListScreen> {
                     builder:
                         (context) => WordDetailScreen(
                           word: word,
-                          wordList: _words,
+                          wordList: List<Word>.from(_words),
                           currentIndex: index,
                         ),
                   ),
