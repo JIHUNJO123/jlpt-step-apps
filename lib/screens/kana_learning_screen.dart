@@ -449,6 +449,7 @@ class _KanaQuizState extends State<_KanaQuiz> {
   String? _selectedAnswer;
   bool _answered = false;
   final Random _random = Random();
+  List<String> _currentOptions = [];
 
   @override
   void initState() {
@@ -463,9 +464,11 @@ class _KanaQuizState extends State<_KanaQuiz> {
     _score = 0;
     _selectedAnswer = null;
     _answered = false;
+    _generateOptions();
   }
 
-  List<String> _generateOptions(KanaCharacter correctKana) {
+  void _generateOptions() {
+    final correctKana = _questions[_currentIndex];
     final correctAnswer = correctKana.romaji;
     final options = <String>{correctAnswer};
 
@@ -476,7 +479,18 @@ class _KanaQuizState extends State<_KanaQuiz> {
       options.add(randomRomaji);
     }
 
-    return options.toList()..shuffle();
+    _currentOptions = options.toList()..shuffle();
+  }
+
+  void _nextQuestion() {
+    setState(() {
+      _currentIndex++;
+      _selectedAnswer = null;
+      _answered = false;
+      if (_currentIndex < _questions.length) {
+        _generateOptions();
+      }
+    });
   }
 
   @override
@@ -537,7 +551,6 @@ class _KanaQuizState extends State<_KanaQuiz> {
 
     final kana = _questions[_currentIndex];
     final displayChar = widget.isKatakana ? kana.katakana : kana.hiragana;
-    final options = _generateOptions(kana);
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -592,16 +605,26 @@ class _KanaQuizState extends State<_KanaQuiz> {
           const SizedBox(height: 32),
 
           // Options
-          ...options.map((option) {
+          ..._currentOptions.map((option) {
             final isCorrect = option == kana.romaji;
             final isSelected = option == _selectedAnswer;
 
             Color? backgroundColor;
+            Color? borderColor;
+            Widget? trailingIcon;
+
             if (_answered) {
               if (isCorrect) {
                 backgroundColor = Colors.green.withAlpha(50);
+                borderColor = Colors.green;
+                trailingIcon = const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                );
               } else if (isSelected) {
                 backgroundColor = Colors.red.withAlpha(50);
+                borderColor = Colors.red;
+                trailingIcon = const Icon(Icons.cancel, color: Colors.red);
               }
             }
 
@@ -609,7 +632,7 @@ class _KanaQuizState extends State<_KanaQuiz> {
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: OutlinedButton(
                   onPressed:
                       _answered
                           ? null
@@ -622,11 +645,40 @@ class _KanaQuizState extends State<_KanaQuiz> {
                               }
                             });
                           },
-                  style: ElevatedButton.styleFrom(
+                  style: OutlinedButton.styleFrom(
                     backgroundColor: backgroundColor,
+                    side:
+                        borderColor != null
+                            ? BorderSide(color: borderColor, width: 2)
+                            : null,
                     padding: const EdgeInsets.symmetric(vertical: 16),
+                    disabledBackgroundColor: backgroundColor,
                   ),
-                  child: Text(option, style: const TextStyle(fontSize: 20)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        option,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color:
+                              _answered && isCorrect
+                                  ? Colors.green
+                                  : _answered && isSelected
+                                  ? Colors.red
+                                  : null,
+                          fontWeight:
+                              _answered && (isCorrect || isSelected)
+                                  ? FontWeight.bold
+                                  : null,
+                        ),
+                      ),
+                      if (trailingIcon != null) ...[
+                        const SizedBox(width: 8),
+                        trailingIcon,
+                      ],
+                    ],
+                  ),
                 ),
               ),
             );
@@ -637,13 +689,7 @@ class _KanaQuizState extends State<_KanaQuiz> {
           // Next button
           if (_answered)
             ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  _currentIndex++;
-                  _selectedAnswer = null;
-                  _answered = false;
-                });
-              },
+              onPressed: _nextQuestion,
               icon: const Icon(Icons.arrow_forward),
               label: Text(l10n.next),
             ),

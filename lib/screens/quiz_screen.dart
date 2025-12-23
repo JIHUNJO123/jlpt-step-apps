@@ -121,10 +121,12 @@ class _QuizScreenState extends State<QuizScreen> {
             ? (_translatedDefinitions[currentWord.id] ?? currentWord.definition)
             : currentWord.word;
 
+    final isCorrect = selectedOption == correctAnswer;
+
     setState(() {
       _answered = true;
       _selectedOption = selectedOption;
-      if (selectedOption == correctAnswer) {
+      if (isCorrect) {
         _score++;
       }
     });
@@ -132,12 +134,11 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _nextQuestion() {
     if (_currentIndex < _quizWords.length - 1) {
-      setState(() {
-        _currentIndex++;
-        _answered = false;
-        _selectedOption = null;
-        _generateOptions();
-      });
+      _currentIndex++;
+      _answered = false;
+      _selectedOption = null;
+      _generateOptions();
+      setState(() {});
     } else {
       _showResultDialog();
     }
@@ -348,7 +349,9 @@ class _QuizScreenState extends State<QuizScreen> {
                     const SizedBox(height: 16),
                     Text(
                       _quizType == QuizType.wordToMeaning
-                          ? currentWord.getDisplayWord(displayMode: DisplayService.instance.displayMode)
+                          ? currentWord.getDisplayWord(
+                            displayMode: DisplayService.instance.displayMode,
+                          )
                           : (_translatedDefinitions[currentWord.id] ??
                               currentWord.definition),
                       style: TextStyle(

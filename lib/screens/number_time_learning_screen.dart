@@ -353,6 +353,7 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
   int _score = 0;
   String? _selectedAnswer;
   bool _answered = false;
+  List<String> _currentOptions = [];
 
   @override
   void initState() {
@@ -368,6 +369,51 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
     _score = 0;
     _selectedAnswer = null;
     _answered = false;
+    _generateCurrentOptions();
+  }
+
+  void _generateCurrentOptions() {
+    final question = _questions[_currentIndex];
+    final options = <String>{question.correctAnswer};
+
+    List<String> pool;
+    switch (question.type) {
+      case 'number':
+        pool =
+            NumberTimeData.basicNumbers
+                .map((n) => n.reading.split('/').first)
+                .toList();
+        break;
+      case 'time':
+        pool = NumberTimeData.hours.map((t) => t.reading).toList();
+        break;
+      case 'day':
+        pool = NumberTimeData.daysOfWeek.map((d) => d.reading).toList();
+        break;
+      case 'month':
+        pool = NumberTimeData.months.map((m) => m.reading).toList();
+        break;
+      default:
+        pool = NumberTimeData.basicNumbers.map((n) => n.reading).toList();
+    }
+
+    while (options.length < 4 && pool.length >= 4) {
+      final randomItem = pool[_random.nextInt(pool.length)];
+      options.add(randomItem);
+    }
+
+    _currentOptions = options.toList()..shuffle();
+  }
+
+  void _nextQuestion() {
+    setState(() {
+      _currentIndex++;
+      _selectedAnswer = null;
+      _answered = false;
+      if (_currentIndex < _questions.length) {
+        _generateCurrentOptions();
+      }
+    });
   }
 
   List<_QuizQuestion> _generateQuestions() {
@@ -418,38 +464,6 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
     }
 
     return questions;
-  }
-
-  List<String> _generateOptions(_QuizQuestion question) {
-    final options = <String>{question.correctAnswer};
-
-    List<String> pool;
-    switch (question.type) {
-      case 'number':
-        pool =
-            NumberTimeData.basicNumbers
-                .map((n) => n.reading.split('/').first)
-                .toList();
-        break;
-      case 'time':
-        pool = NumberTimeData.hours.map((t) => t.reading).toList();
-        break;
-      case 'day':
-        pool = NumberTimeData.daysOfWeek.map((d) => d.reading).toList();
-        break;
-      case 'month':
-        pool = NumberTimeData.months.map((m) => m.reading).toList();
-        break;
-      default:
-        pool = NumberTimeData.basicNumbers.map((n) => n.reading).toList();
-    }
-
-    while (options.length < 4 && pool.length >= 4) {
-      final randomItem = pool[_random.nextInt(pool.length)];
-      options.add(randomItem);
-    }
-
-    return options.toList()..shuffle();
   }
 
   @override
@@ -504,7 +518,6 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
     }
 
     final question = _questions[_currentIndex];
-    final options = _generateOptions(question);
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -571,16 +584,26 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
           const SizedBox(height: 32),
 
           // Options
-          ...options.map((option) {
+          ..._currentOptions.map((option) {
             final isCorrect = option == question.correctAnswer;
             final isSelected = option == _selectedAnswer;
 
             Color? backgroundColor;
+            Color? borderColor;
+            Widget? trailingIcon;
+
             if (_answered) {
               if (isCorrect) {
                 backgroundColor = Colors.green.withAlpha(50);
+                borderColor = Colors.green;
+                trailingIcon = const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                );
               } else if (isSelected) {
                 backgroundColor = Colors.red.withAlpha(50);
+                borderColor = Colors.red;
+                trailingIcon = const Icon(Icons.cancel, color: Colors.red);
               }
             }
 
@@ -588,7 +611,7 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: OutlinedButton(
                   onPressed:
                       _answered
                           ? null
@@ -601,11 +624,40 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
                               }
                             });
                           },
-                  style: ElevatedButton.styleFrom(
+                  style: OutlinedButton.styleFrom(
                     backgroundColor: backgroundColor,
+                    side:
+                        borderColor != null
+                            ? BorderSide(color: borderColor, width: 2)
+                            : null,
                     padding: const EdgeInsets.symmetric(vertical: 16),
+                    disabledBackgroundColor: backgroundColor,
                   ),
-                  child: Text(option, style: const TextStyle(fontSize: 18)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        option,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color:
+                              _answered && isCorrect
+                                  ? Colors.green
+                                  : _answered && isSelected
+                                  ? Colors.red
+                                  : null,
+                          fontWeight:
+                              _answered && (isCorrect || isSelected)
+                                  ? FontWeight.bold
+                                  : null,
+                        ),
+                      ),
+                      if (trailingIcon != null) ...[
+                        const SizedBox(width: 8),
+                        trailingIcon,
+                      ],
+                    ],
+                  ),
                 ),
               ),
             );
@@ -616,13 +668,7 @@ class _NumberTimeQuizState extends State<_NumberTimeQuiz> {
           // Next button
           if (_answered)
             ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  _currentIndex++;
-                  _selectedAnswer = null;
-                  _answered = false;
-                });
-              },
+              onPressed: _nextQuestion,
               icon: const Icon(Icons.arrow_forward),
               label: Text(l10n.next),
             ),
