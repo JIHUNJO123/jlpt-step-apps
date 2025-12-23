@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,27 +16,47 @@ import 'services/display_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ?뚮옯?쇰퀎 sqflite 珥덇린??
-  if (kIsWeb) {
-    // ?뱀뿉??sqflite 珥덇린??
-    databaseFactory = databaseFactoryFfiWeb;
-  } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    // Windows, Linux, macOS?먯꽌 sqflite 珥덇린??
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
+  // Global error handling
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    debugPrint('Flutter Error: ${details.exception}');
+  };
+
+  try {
+    // Platform-specific sqflite initialization
+    if (kIsWeb) {
+      databaseFactory = databaseFactoryFfiWeb;
+    } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+
+    // Translation service initialization
+    await TranslationService.instance.init();
+
+    // Display service initialization
+    try {
+      await DisplayService.instance.init();
+    } catch (e) {
+      debugPrint('DisplayService initialization error: $e');
+    }
+
+    // Ad service initialization (continue even if failed)
+    try {
+      await AdService.instance.initialize();
+    } catch (e) {
+      debugPrint('AdService initialization error: $e');
+    }
+
+    // In-app purchase service initialization (continue even if failed)
+    try {
+      await PurchaseService.instance.initialize();
+    } catch (e) {
+      debugPrint('PurchaseService initialization error: $e');
+    }
+  } catch (e) {
+    debugPrint('App initialization error: $e');
   }
-
-  // 踰덉뿭 ?쒕퉬??珥덇린??
-  await TranslationService.instance.init();
-
-  // 표시 서비스 초기화
-  await DisplayService.instance.init();
-
-  // 광고 서비스 초기화
-  await AdService.instance.initialize();
-
-  // 인앱 구매 서비스 초기화
-  await PurchaseService.instance.initialize();
 
   runApp(
     ChangeNotifierProvider(
@@ -46,7 +66,6 @@ void main() async {
   );
 }
 
-/// ?몄뼱 諛??뚮쭏 蹂寃쎌쓣 ?꾪븳 Provider
 class LocaleProvider extends ChangeNotifier {
   Locale _locale = const Locale('en');
   ThemeMode _themeMode = ThemeMode.light;
@@ -59,22 +78,20 @@ class LocaleProvider extends ChangeNotifier {
   }
 
   Future<void> _loadSavedSettings() async {
-    final prefs = await SharedPreferences.getInstance();
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    // ?몄뼱 濡쒕뱶
-    await TranslationService.instance.init();
-    final langCode = TranslationService.instance.currentLanguage;
-    _locale = _createLocale(langCode);
+      await TranslationService.instance.init();
+      final langCode = TranslationService.instance.currentLanguage;
+      _locale = Locale(langCode);
 
-    // ?ㅽ겕紐⑤뱶 濡쒕뱶
-    final isDarkMode = prefs.getBool('darkMode') ?? false;
-    _themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+      final isDarkMode = prefs.getBool('darkMode') ?? false;
+      _themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
 
-    notifyListeners();
-  }
-
-  Locale _createLocale(String langCode) {
-    return Locale(langCode);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('LocaleProvider load error: $e');
+    }
   }
 
   void setLocale(Locale locale) {
@@ -102,10 +119,9 @@ class JLPTVocabApp extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     return MaterialApp(
-      title: 'JLPT Step N5–N3',
+      title: 'JLPT Step N5-N3',
       debugShowCheckedModeBanner: false,
 
-      // Localization ?ㅼ젙
       locale: localeProvider.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -121,7 +137,7 @@ class JLPTVocabApp extends StatelessWidget {
 
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFE53E3E), // JLPT Red
+          seedColor: const Color(0xFFE53E3E),
           brightness: Brightness.light,
         ),
         useMaterial3: false,
@@ -146,7 +162,7 @@ class JLPTVocabApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFE53E3E), // JLPT Red
+          seedColor: const Color(0xFFE53E3E),
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
@@ -174,4 +190,3 @@ class JLPTVocabApp extends StatelessWidget {
     );
   }
 }
-

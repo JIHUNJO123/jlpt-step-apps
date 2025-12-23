@@ -281,5 +281,75 @@ class AppLocalizationsKo extends AppLocalizations {
   String get support => '지원';
 
   @override
+<<<<<<< HEAD
   String get cancel => '취소';
+=======
+  String get japaneseBasics => '일본어 기초';
+
+  @override
+  String get hiragana => '히라가나';
+
+  @override
+  String get katakana => '카타카나';
+
+  @override
+  String get numbersAndTime => '숫자 & 시간';
+
+  @override
+  String get chart => '표';
+
+  @override
+  String get showRomaji => '로마자 표시/숨기기';
+
+  @override
+  String get basicKana => '기본 가나 (청음)';
+
+  @override
+  String get dakutenKana => '탁음 & 반탁음';
+
+  @override
+  String get tapToReveal => '탭하여 확인';
+
+  @override
+  String get completed => '완료!';
+
+  @override
+  String get numbers => '숫자';
+
+  @override
+  String get time => '시간';
+
+  @override
+  String get daysMonths => '요일 & 월';
+
+  @override
+  String get basicNumbers => '기본 숫자 (0-10)';
+
+  @override
+  String get bigNumbers => '큰 숫자';
+
+  @override
+  String get compoundNumbers => '복합 숫자';
+
+  @override
+  String get hours => '시';
+
+  @override
+  String get minutes => '분';
+
+  @override
+  String get timeExpressions => '시간 표현';
+
+  @override
+  String get daysOfWeek => '요일';
+
+  @override
+  String get months => '월';
+
+  @override
+  String get dates => '날짜';
+
+  @override
+  String get whatIsTheReading => '읽기가 무엇일까요?';
+>>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }

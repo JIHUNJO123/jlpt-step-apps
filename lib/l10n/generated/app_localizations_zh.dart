@@ -281,5 +281,75 @@ class AppLocalizationsZh extends AppLocalizations {
   String get support => '支持';
 
   @override
+<<<<<<< HEAD
   String get cancel => '取消';
+=======
+  String get japaneseBasics => '日语基础';
+
+  @override
+  String get hiragana => '平假名';
+
+  @override
+  String get katakana => '片假名';
+
+  @override
+  String get numbersAndTime => '数字与时间';
+
+  @override
+  String get chart => '表格';
+
+  @override
+  String get showRomaji => '显示/隐藏罗马字';
+
+  @override
+  String get basicKana => '基本假名 (清音)';
+
+  @override
+  String get dakutenKana => '浊音 & 半浊音';
+
+  @override
+  String get tapToReveal => '点击查看';
+
+  @override
+  String get completed => '完成！';
+
+  @override
+  String get numbers => '数字';
+
+  @override
+  String get time => '时间';
+
+  @override
+  String get daysMonths => '星期 & 月份';
+
+  @override
+  String get basicNumbers => '基本数字 (0-10)';
+
+  @override
+  String get bigNumbers => '大数字';
+
+  @override
+  String get compoundNumbers => '复合数字';
+
+  @override
+  String get hours => '小时';
+
+  @override
+  String get minutes => '分钟';
+
+  @override
+  String get timeExpressions => '时间表达';
+
+  @override
+  String get daysOfWeek => '星期';
+
+  @override
+  String get months => '月份';
+
+  @override
+  String get dates => '日期';
+
+  @override
+  String get whatIsTheReading => '读音是什么？';
+>>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }

@@ -521,13 +521,29 @@ class _WordListScreenState extends State<WordListScreen> {
           return Card(
             margin: const EdgeInsets.only(bottom: 12),
             child: ListTile(
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                final result = await Navigator.push<int>(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => WordDetailScreen(word: word),
+                    builder:
+                        (context) => WordDetailScreen(
+                          word: word,
+                          wordList: List<Word>.from(_words),
+                          currentIndex: index,
+                        ),
                   ),
                 );
+                // 이동한 인덱스로 스크롤 위치 업데이트
+                if (result != null && result != index && mounted) {
+                  final targetOffset = result * 80.0;
+                  if (_listScrollController.hasClients) {
+                    _listScrollController.animateTo(
+                      targetOffset,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  }
+                }
               },
               title: Row(
                 children: [

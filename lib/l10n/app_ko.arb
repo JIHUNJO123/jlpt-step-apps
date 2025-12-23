@@ -97,6 +97,32 @@
   "showFuriganaInListDesc": "단어 목록에서 한자 위에 읽기 표시",
   "marketing": "마케팅",
   "support": "지원",
+<<<<<<< HEAD
   "cancel": "취소"
+=======
+  "japaneseBasics": "일본어 기초",
+  "hiragana": "히라가나",
+  "katakana": "카타카나",
+  "numbersAndTime": "숫자 & 시간",
+  "chart": "표",
+  "showRomaji": "로마자 표시/숨기기",
+  "basicKana": "기본 가나 (청음)",
+  "dakutenKana": "탁음 & 반탁음",
+  "tapToReveal": "탭하여 확인",
+  "completed": "완료!",
+  "numbers": "숫자",
+  "time": "시간",
+  "daysMonths": "요일 & 월",
+  "basicNumbers": "기본 숫자 (0-10)",
+  "bigNumbers": "큰 숫자",
+  "compoundNumbers": "복합 숫자",
+  "hours": "시",
+  "minutes": "분",
+  "timeExpressions": "시간 표현",
+  "daysOfWeek": "요일",
+  "months": "월",
+  "dates": "날짜",
+  "whatIsTheReading": "읽기가 무엇일까요?"
+>>>>>>> 2708a9437f729c0566fce85529e1c0554a9b706e
 }
 

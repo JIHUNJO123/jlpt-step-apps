@@ -11,6 +11,8 @@ import 'word_detail_screen.dart';
 import 'favorites_screen.dart';
 import 'quiz_screen.dart';
 import 'settings_screen.dart';
+import 'kana_learning_screen.dart';
+import 'number_time_learning_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -149,6 +151,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Today's Word Card
                   _buildTodayWordCard(),
+                  const SizedBox(height: 24),
+
+                  // Japanese Basics Section (NEW)
+                  Text(
+                    l10n.japaneseBasics,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildBasicsGrid(),
+
                   const SizedBox(height: 24),
 
                   // Quick Actions
@@ -374,6 +389,116 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () => _showLevelSelectionDialog(isFlashcard: false),
         ),
       ],
+    );
+  }
+
+  Widget _buildBasicsGrid() {
+    final l10n = AppLocalizations.of(context)!;
+
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 3,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      childAspectRatio: 1.0,
+      children: [
+        _buildBasicsCard(
+          icon: 'あ',
+          title: l10n.hiragana,
+          color: Colors.pink,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) => const KanaLearningScreen(isKatakana: false),
+              ),
+            );
+          },
+        ),
+        _buildBasicsCard(
+          icon: 'ア',
+          title: l10n.katakana,
+          color: Colors.purple,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) => const KanaLearningScreen(isKatakana: true),
+              ),
+            );
+          },
+        ),
+        _buildBasicsCard(
+          icon: '123',
+          title: l10n.numbersAndTime,
+          color: Colors.teal,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NumberTimeLearningScreen(),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBasicsCard({
+    required String icon,
+    required String title,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: LinearGradient(
+              colors: [color.withAlpha((0.8 * 255).toInt()), color],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                icon,
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
