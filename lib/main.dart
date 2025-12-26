@@ -43,7 +43,8 @@ void main() async {
 
     // Ad service initialization (continue even if failed)
     try {
-      await AdService.instance.initialize();
+      await AdService.instance.loadUnlockStatus();
+      AdService.instance.loadRewardedAd();
     } catch (e) {
       debugPrint('AdService initialization error: $e');
     }

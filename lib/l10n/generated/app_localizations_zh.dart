@@ -111,7 +111,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get disclaimer => '免责声明';
 
   @override
-  String get disclaimerText => '本应用是独立的JLPT备考工具，与日本国际交流基金会或日本国际教育支援协会无任何关联、背书或认可关系。';
+  String get disclaimerText =>
+      '本应用是独立的JLPT备考工具，与日本国际交流基金会或日本国际教育支援协会无任何关联、背书或认可关系。';
 
   @override
   String get privacyPolicy => '隐私政策';
@@ -351,4 +352,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get whatIsTheReading => '读音是什么？';
+
+  @override
+  String get lockedContent => '锁定内容';
+
+  @override
+  String get watchAdToUnlock => '观看短视频即可解锁所有单词至午夜！';
+
+  @override
+  String get watchAd => '观看广告';
+
+  @override
+  String get adNotReady => '广告尚未准备好，请稍后再试。';
+
+  @override
+  String get unlockedUntilMidnight => '所有单词已解锁至午夜！';
 }

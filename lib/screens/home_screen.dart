@@ -1,6 +1,5 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:jlpt_vocab_app/l10n/generated/app_localizations.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../db/database_helper.dart';
 import '../models/word.dart';
 import '../services/translation_service.dart';
@@ -25,14 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Word? _todayWord;
   String? _translatedDefinition;
   bool _isLoading = true;
-  bool _isBannerAdLoaded = false;
   String? _lastLanguage;
 
   @override
   void initState() {
     super.initState();
     _loadTodayWord();
-    _loadBannerAd();
+    AdService.instance.loadRewardedAd();
   }
 
   @override
@@ -43,23 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _loadTodayWord();
     }
     _lastLanguage = currentLanguage;
-  }
-
-  Future<void> _loadBannerAd() async {
-    final adService = AdService.instance;
-    await adService.initialize();
-
-    if (!adService.adsRemoved) {
-      await adService.loadBannerAd(
-        onLoaded: () {
-          if (mounted) {
-            setState(() {
-              _isBannerAdLoaded = true;
-            });
-          }
-        },
-      );
-    }
   }
 
   Future<void> _loadTodayWord() async {
@@ -113,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    AdService.instance.disposeBannerAd();
+    AdService.instance.dispose();
     super.dispose();
   }
 
@@ -193,27 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          // 諛곕꼫 愿묎퀬
-          _buildBannerAd(),
         ],
       ),
-    );
-  }
-
-  Widget _buildBannerAd() {
-    final adService = AdService.instance;
-
-    if (adService.adsRemoved ||
-        !_isBannerAdLoaded ||
-        adService.bannerAd == null) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      width: adService.bannerAd!.size.width.toDouble(),
-      height: adService.bannerAd!.size.height.toDouble(),
-      alignment: Alignment.center,
-      child: AdWidget(ad: adService.bannerAd!),
     );
   }
 
@@ -411,8 +373,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder:
-                    (context) => const KanaLearningScreen(isKatakana: false),
+                builder: (context) =>
+                    const KanaLearningScreen(isKatakana: false),
               ),
             );
           },
@@ -425,8 +387,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder:
-                    (context) => const KanaLearningScreen(isKatakana: true),
+                builder: (context) =>
+                    const KanaLearningScreen(isKatakana: true),
               ),
             );
           },
@@ -597,9 +559,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder:
-                          (context) =>
-                              WordListScreen(level: level['level'] as String),
+                      builder: (context) =>
+                          WordListScreen(level: level['level'] as String),
                     ),
                   );
                 },
@@ -662,232 +623,225 @@ class _HomeScreenState extends State<HomeScreen> {
 
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(isFlashcard ? l10n.flashcard : l10n.quiz),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Icon(Icons.all_inclusive, color: Colors.white),
-                  ),
-                  title: Text(l10n.allWords),
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (isFlashcard) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) =>
-                                  const WordListScreen(isFlashcardMode: true),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QuizScreen(),
-                        ),
-                      );
-                    }
-                  },
+      builder: (context) => AlertDialog(
+        title: Text(isFlashcard ? l10n.flashcard : l10n.quiz),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                ListTile(
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Icon(Icons.favorite, color: Colors.white),
-                  ),
-                  title: Text(l10n.favorites),
-                  subtitle: Text(
-                    l10n.savedWords,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (isFlashcard) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => const WordListScreen(
-                                isFlashcardMode: true,
-                                favoritesOnly: true,
-                              ),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) =>
-                                  const QuizScreen(favoritesOnly: true),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                const Divider(),
-                // Level options (N5, N4, N3)
-                ListTile(
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'N5',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  title: Text(l10n.n5),
-                  subtitle: Text(
-                    l10n.n5Desc,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (isFlashcard) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => const WordListScreen(
-                                level: 'N5',
-                                isFlashcardMode: true,
-                              ),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QuizScreen(level: 'N5'),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                ListTile(
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'N4',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  title: Text(l10n.n4),
-                  subtitle: Text(
-                    l10n.n4Desc,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (isFlashcard) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => const WordListScreen(
-                                level: 'N4',
-                                isFlashcardMode: true,
-                              ),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QuizScreen(level: 'N4'),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                ListTile(
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'N3',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  title: Text(l10n.n3),
-                  subtitle: Text(
-                    l10n.n3Desc,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (isFlashcard) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => const WordListScreen(
-                                level: 'N3',
-                                isFlashcardMode: true,
-                              ),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QuizScreen(level: 'N3'),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(l10n.cancel),
+                alignment: Alignment.center,
+                child: const Icon(Icons.all_inclusive, color: Colors.white),
               ),
-            ],
+              title: Text(l10n.allWords),
+              onTap: () {
+                Navigator.pop(context);
+                if (isFlashcard) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const WordListScreen(isFlashcardMode: true),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuizScreen(),
+                    ),
+                  );
+                }
+              },
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: const Icon(Icons.favorite, color: Colors.white),
+              ),
+              title: Text(l10n.favorites),
+              subtitle: Text(
+                l10n.savedWords,
+                style: const TextStyle(fontSize: 12),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                if (isFlashcard) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WordListScreen(
+                        isFlashcardMode: true,
+                        favoritesOnly: true,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const QuizScreen(favoritesOnly: true),
+                    ),
+                  );
+                }
+              },
+            ),
+            const Divider(),
+            // Level options (N5, N4, N3)
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'N5',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              title: Text(l10n.n5),
+              subtitle: Text(
+                l10n.n5Desc,
+                style: const TextStyle(fontSize: 12),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                if (isFlashcard) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WordListScreen(
+                        level: 'N5',
+                        isFlashcardMode: true,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuizScreen(level: 'N5'),
+                    ),
+                  );
+                }
+              },
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'N4',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              title: Text(l10n.n4),
+              subtitle: Text(
+                l10n.n4Desc,
+                style: const TextStyle(fontSize: 12),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                if (isFlashcard) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WordListScreen(
+                        level: 'N4',
+                        isFlashcardMode: true,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuizScreen(level: 'N4'),
+                    ),
+                  );
+                }
+              },
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'N3',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              title: Text(l10n.n3),
+              subtitle: Text(
+                l10n.n3Desc,
+                style: const TextStyle(fontSize: 12),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                if (isFlashcard) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WordListScreen(
+                        level: 'N3',
+                        isFlashcardMode: true,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuizScreen(level: 'N3'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
           ),
+        ],
+      ),
     );
   }
 }
