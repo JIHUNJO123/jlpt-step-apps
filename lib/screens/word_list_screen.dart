@@ -623,11 +623,11 @@ class _WordListScreenState extends State<WordListScreen> {
                   ),
                 );
                 // 이동한 인덱스로 스크롤 위치 업데이트
-                if (result != null && result != index && mounted) {
-                  final targetOffset = result * 80.0;
-                  if (_listScrollController.hasClients) {
+                if (result != null && mounted) {
+                  _savePosition(result);
+                  if (result != index && _listScrollController.hasClients) {
                     _listScrollController.animateTo(
-                      targetOffset,
+                      result * 80.0,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                     );
